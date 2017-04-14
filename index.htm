@@ -529,6 +529,9 @@ var __st={"a":7749409,"offset":-14400,"reqid":"61ab00f3-1c6b-42a6-95b0-5f13cb821
       var json, map;
       
       (function () {
+        // Get the event fragment
+        var eventID = parseInt(window.location.hash.substring(1));
+        
         var element = document.getElementById('planaby_embed');
         var xmlhttp = new XMLHttpRequest();
         var user_id = element.getAttribute('data-userid');
@@ -540,8 +543,13 @@ var __st={"a":7749409,"offset":-14400,"reqid":"61ab00f3-1c6b-42a6-95b0-5f13cb821
               var div = document.createElement('div');
               json = JSON.parse(xmlhttp.responseText);
               for (var i = 0, len = json.length; i < len; ++i) {
-                   var event = json[i];
-                   div.innerHTML += "<div id=\"" + event.id + "\" class='event-div' onclick='fetchEvent(" + i + ")'> <div class=\"event-title\">" + event.title + "<div  class='event-date'>" + tempRenderEventDate(event) + "</div></div><div  class='row'><p id='date'></div>";
+                  var event = json[i];
+                  div.innerHTML += "<div id=\"" + event.id + "\" class='event-div' onclick='fetchEvent(" + i + ")'> <div class=\"event-title\">" + event.title + "<div  class='event-date'>" + tempRenderEventDate(event) + "</div></div><div  class='row'><p id='date'></div>";
+                  
+                   // Show event if fragment exists
+                  if(eventID != null && eventID === event.id) {
+                    fetchEvent(i);
+                  }
               }
               element.parentNode.insertBefore(div, element);
           }
